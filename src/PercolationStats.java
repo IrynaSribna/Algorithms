@@ -51,10 +51,6 @@ public class PercolationStats {
         }
 
         new PercolationStats(n, t);
-        Percolation percolation = new Percolation(n);
-        for (int i = 0; i < t; i++) {
-            percolation.percolates()
-        }
     }
 
 }
