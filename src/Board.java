@@ -33,7 +33,15 @@ public class Board {
 
     // number of tiles out of place
     public int hamming() {
-        return 0;
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!check(i, j, this.boardTiles[i][j])) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     // sum of Manhattan distances between tiles and goal
@@ -63,7 +71,24 @@ public class Board {
 
     // unit testing (not graded)
     public static void main(String[] args) {
+        int[][] tiles = {
+            {1, 2, 3},
+            {4, 0, 5},
+            {7, 8, 6}
 
+        };
+        Board initial = new Board(tiles);
+        System.out.println("Hamming: " + initial.hamming());
+
+    }
+
+    private boolean check(int x, int y, int value) {
+        int position = y + n * x + 1;
+        System.out.println("x: " + x + " y: " + y + " Position: " + position + " value: " + value);
+        if (value == 0) {
+            return true;
+        }
+        return position == value;
     }
 
 }
