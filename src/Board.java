@@ -8,7 +8,7 @@ public class Board {
     private final int n;
     private final int length;
     private final int[][] boardTiles;
-    private int manhattanDistance;
+    public final int manhattanDistance;
     private int[] pieces;
     private int zeroPosition;
 
