@@ -1,15 +1,12 @@
 import java.util.Arrays;
 
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.StdRandom;
 
 
 public class Board {
     private final int n;
     private final int length;
-    private final int[][] boardTiles;
-    public final int manhattanDistance;
-    private int[] pieces;
+    private final int[] pieces;
     private int zeroPosition;
 
     // create a board from an n-by-n array of tiles,
@@ -18,7 +15,6 @@ public class Board {
         this.n = tiles[0].length;
         this.length = n * n;
         pieces = new int[length];
-        this.boardTiles = tiles.clone();
         int[][] copy = tiles.clone();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -29,18 +25,17 @@ public class Board {
                 }
             }
         }
-        this.manhattanDistance = manhattan();
     }
 
     // string representation of this board
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(n).append("\n");
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n * n; i = i + n) {
             for (int j = 0; j < n; j++) {
-                builder.append(String.format("%2d ", boardTiles[i][j]));
+                builder.append(String.format("%2d ", pieces[i + j]));
             }
-            builder.append("\n");
+                builder.append("\n");
         }
         return builder.toString();
     }
@@ -67,12 +62,31 @@ public class Board {
         for (int i = 0; i < length; i++) {
             int value = pieces[i];
             if (value != 0 && value != i + 1) {
-                int diff = Math.abs(value - i - 1);
-                count += diff / n + diff % n;
+                count += Math.abs(expectedCol(value)-actualCol(i))
+                    + Math.abs(expectedRow(value) - actualRow(i));
             }
         }
 
         return count;
+    }
+
+    private int expectedCol(int value) {
+        int mod = value % n;
+        return mod == 0 ? n : mod;
+    }
+
+    private int expectedRow(int value) {
+        int div = value / n;
+        int mod = value % n;
+        return mod == 0 ? div : div + 1;
+    }
+
+    private int actualCol(int position) {
+        return position % n + 1;
+    }
+
+    private int actualRow(int position) {
+        return position / n + 1;
     }
 
     // is this board the goal board?
@@ -81,13 +95,13 @@ public class Board {
     }
 
     // does this board equal y?
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Board board = (Board) o;
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Board board = (Board) other;
         return n == board.n &&
-            manhattanDistance == board.manhattanDistance &&
-            Arrays.equals(pieces, board.pieces);
+            manhattan() == board.manhattan() &&
+            Arrays.deepEquals(new int[][]{pieces}, new int[][]{board.pieces});
     }
 
     // all neighboring boards
@@ -96,20 +110,22 @@ public class Board {
         Board right = null;
         Board top = null;
         Board bottom = null;
-        if (shouldAddLeft()) {
-            left = swap(zeroPosition, zeroPosition + 1);
-        }
-        if (shouldAddRight()) {
-            right = swap(zeroPosition, zeroPosition - 1);
-        }
-
         if (shouldAddTop()) {
             top = swap(zeroPosition, zeroPosition - n);
+        }
+
+        if (shouldAddLeft()) {
+            left = swap(zeroPosition, zeroPosition + 1);
         }
 
         if (shouldAddDown()) {
             bottom = swap(zeroPosition, zeroPosition + n);
         }
+
+        if (shouldAddRight()) {
+            right = swap(zeroPosition, zeroPosition - 1);
+        }
+
         Queue<Board> neighbors = new Queue<>();
         if (left != null && !left.equals(this)) {
             neighbors.enqueue(left);
@@ -130,8 +146,7 @@ public class Board {
         return neighbors;
     }
 
-
-    public Board swap(int fromPosition, int toPosition) {
+    private Board swap(int fromPosition, int toPosition) {
         int[][] shiftedPieces2D = new int[n][n];
         int[] shiftedPieces = this.pieces.clone();
         int temp = shiftedPieces[fromPosition];
@@ -163,11 +178,16 @@ public class Board {
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
         int first, second;
-        do {
-            first = StdRandom.uniform(0, length);
-            second = StdRandom.uniform(0, length);
-        } while (first == second || first == zeroPosition || second == zeroPosition);
-
+        if (zeroPosition == 0) {
+            first = 1;
+            second = 2;
+        } else if (zeroPosition == 1) {
+            first = 0;
+            second = 2;
+        } else {
+            first = 0;
+            second = 1;
+        }
         return swap(first, second);
     }
 
@@ -180,29 +200,30 @@ public class Board {
 
         };
 
-        int[][] tiles2 = {
-            {2, 8, 1},
-            {0, 7, 6},
-            {5, 3, 4}
+        int [][] tiles1 = {
+            {1, 0},
+            {2, 3}
         };
-        Board initial = new Board(tiles);
-        System.out.println("Hamming: " + initial.hamming());
-        System.out.println("Manhattan: " + initial.manhattan());
-        System.out.println("==================");
-        initial.neighbors().forEach(System.out::println);
-        System.out.println("---------------------");
-        System.out.println(initial.twin());
 
+        int [][] tiles3 = {
+            {1, 6, 4},
+            {2, 7, 8},
+            {5, 0, 3}
+        };
 
-        Board second = new Board(tiles2);
-        System.out.println("===============");
-        System.out.println("Hamming second: " + second.hamming());
-        System.out.println("Manhattan: " + second.manhattan());
+        Board board = new Board(tiles);
+        Board board1 = new Board(tiles1);
+        Board board2 = new Board(tiles3);
 
-        System.out.println("Equal: " + initial.equals(second));
+        if (board.equals(board1)) {
+            if (board1.equals(board2)) {
+              board1.neighbors();
+            }
+        }
+
     }
 
-    private int getPosition (int x, int y) {
+    private int getPosition(int x, int y) {
         return y + n * x;
     }
 
