@@ -62,7 +62,7 @@ public class Board {
         for (int i = 0; i < length; i++) {
             int value = pieces[i];
             if (value != 0 && value != i + 1) {
-                count += Math.abs(expectedCol(value)-actualCol(i))
+                count += Math.abs(expectedCol(value) - actualCol(i))
                     + Math.abs(expectedRow(value) - actualRow(i));
             }
         }

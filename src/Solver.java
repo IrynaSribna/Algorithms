@@ -7,7 +7,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class Solver {
 
     private final Stack<Board> solution = new Stack<>();
-    private int solutionMoves;
+    private final int solutionMoves;
     private boolean isSolvable = false;
 
     // find a solution to the initial board (using the A* algorithm)
@@ -27,8 +27,7 @@ public class Solver {
         SearchNode deletedNode = pInitQueue.delMin();
 
         while (!deletedNode.board.isGoal()) {
-            moves++;
-            insertNeighbors(moves, pInitQueue, deletedNode);
+            insertNeighbors(pInitQueue, deletedNode);
             deletedNode = pInitQueue.delMin();
         }
 
@@ -46,10 +45,11 @@ public class Solver {
         solutionMoves = solution.size() - 1;
     }
 
-    private void insertNeighbors(int moves, MinPQ<SearchNode> pInitQueue, SearchNode dequeued) {
+    private void insertNeighbors(MinPQ<SearchNode> pInitQueue, SearchNode dequeued) {
         for (Board neighbor : dequeued.board.neighbors()) {
             if (dequeued.previous == null || !neighbor.equals(dequeued.previous.board)) {
-                pInitQueue.insert(new SearchNode(neighbor, moves, dequeued));
+                SearchNode neighborToInsert = new SearchNode(neighbor, dequeued.moves + 1, dequeued);
+                pInitQueue.insert(neighborToInsert);
             }
         }
     }
@@ -104,18 +104,13 @@ public class Solver {
 
     // test client (see below)
     public static void main(String[] args) {
-        int[][] tiles = {
-            {1, 3, 5},
-            {4, 0, 8},
-            {7, 6, 2}
-        };
         // create initial board from file
-//        In in = new In(args[0]);
-//        int n = in.readInt();
-//        int[][] tiles = new int[n][n];
-//        for (int i = 0; i < n; i++)
-//            for (int j = 0; j < n; j++)
-//                tiles[i][j] = in.readInt();
+        In in = new In(args[0]);
+        int n = in.readInt();
+        int[][] tiles = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                tiles[i][j] = in.readInt();
 
         Board initial = new Board(tiles);
 
