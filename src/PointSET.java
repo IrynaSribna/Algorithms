@@ -58,7 +58,7 @@ public class PointSET {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
-        if (isEmpty()) {
+        if (isEmpty() || p == null) {
             return null;
         }
         Point2D nearestPoint = null;
@@ -93,7 +93,7 @@ public class PointSET {
             System.out.println("In range: " + p);
         }
 
-        System.out.println(set.nearest(new Point2D(0.7, 0.7)));
+        System.out.println("Nearest point: " + set.nearest(new Point2D(0.7, 0.7)));
 
     }
 
