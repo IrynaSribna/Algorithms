@@ -1,13 +1,13 @@
 import edu.princeton.cs.algs4.StdDraw;
 
 
-public class Point2D implements Comparable<Point2D> {
+public class Point2D_my implements Comparable<Point2D_my> {
 
     private final double x;
     private final double y;
 
     // construct the point (x, y)
-    public Point2D(double x, double y) {
+    public Point2D_my(double x, double y) {
         if (x == 0.0) {
             this.x = 0.0;  // convert -0.0 to +0.0
         } else {
@@ -33,7 +33,7 @@ public class Point2D implements Comparable<Point2D> {
     }
 
     // Euclidean distance between two points
-    public double distanceTo(Point2D that) {
+    public double distanceTo(Point2D_my that) {
         if (that == null) {
             throw new IllegalArgumentException();
         }
@@ -41,7 +41,7 @@ public class Point2D implements Comparable<Point2D> {
     }
 
     // square of Euclidean distance between two points
-    public double distanceSquaredTo(Point2D that) {
+    public double distanceSquaredTo(Point2D_my that) {
         if (that == null) {
             throw new IllegalArgumentException();
         }
@@ -53,7 +53,7 @@ public class Point2D implements Comparable<Point2D> {
     }
 
     @Override
-    public int compareTo(Point2D o) {
+    public int compareTo(Point2D_my o) {
         if (o == null) {
             throw new IllegalArgumentException();
         }
@@ -73,7 +73,7 @@ public class Point2D implements Comparable<Point2D> {
         if (o == null || !getClass().equals(o.getClass())) {
             return false;
         }
-        Point2D point2D = (Point2D) o;
+        Point2D_my point2D = (Point2D_my) o;
         return Double.compare(point2D.x, x) == 0 &&
             Double.compare(point2D.y, y) == 0;
     }

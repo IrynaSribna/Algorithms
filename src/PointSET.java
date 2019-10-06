@@ -1,13 +1,13 @@
-import java.awt.Color;
-
-import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.Queue;
 
 
 public class PointSET {
 
-    private SET<Point2D> pointsSet;
+    private final SET<Point2D> pointsSet;
 
     // construct an empty set of points
     public PointSET() {
@@ -43,6 +43,9 @@ public class PointSET {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null) {
+            throw new IllegalArgumentException();
+        }
         Queue<Point2D> pointsInsideRect = new Queue<>();
         if (isEmpty()) {
             return  pointsInsideRect;
@@ -58,13 +61,16 @@ public class PointSET {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
-        if (isEmpty() || p == null) {
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+        if (isEmpty()) {
             return null;
         }
         Point2D nearestPoint = null;
-        double minDistance = Double.MAX_VALUE;
+        double minDistance = Double.POSITIVE_INFINITY;
         for (Point2D point : pointsSet) {
-            double currentDistance = p.distanceTo(point);
+            double currentDistance = p.distanceSquaredTo(point);
             if (currentDistance < minDistance) {
                 minDistance = currentDistance;
                 nearestPoint = point;
@@ -88,7 +94,6 @@ public class PointSET {
         rect.draw();
         Iterable<Point2D> result = set.range(rect);
         for (Point2D p : result) {
-            StdDraw.setPenColor(Color.RED);
             StdDraw.point(p.x(), p.y());
             System.out.println("In range: " + p);
         }
