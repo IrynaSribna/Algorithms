@@ -119,27 +119,26 @@ public class KdTree {
         if (point == null) throw new IllegalArgumentException("calls get() with a null key");
         if (x == null) return null;
 
+        if (x.p.equals(point)) {
+            return x.p;
+        }
         if (currentX) {
             if (point.x() < x.p.x()) {
                 return get(x.lb, point, false);
             }
-            else if (point.x() > x.p.x()) {
+            else if (point.x() >= x.p.x()) {
                 return get(x.rt, point, false);
-            }
-            else {
-                return x.p.equals(point) ? x.p : null;
             }
         } else {
             if (point.y() < x.p.y()) {
                 return get(x.lb, point, true);
             }
-            else if (point.y() > x.p.y()) {
+            else if (point.y() >= x.p.y()) {
                 return get(x.rt, point, true);
             }
-            else {
-                return x.p.equals(point) ? x.p : null;
-            }
         }
+
+        return null;
     }
 
     // draw all points to standard draw
@@ -284,19 +283,61 @@ public class KdTree {
 //        tree4.insert(new Point2D(1, 0));
 //        tree4.insert(new Point2D(0, 0));
 //        tree4.insert(new Point2D(1, 1));
+//
+//        KdTree kdTree = new KdTree();
+//        kdTree.insert(new Point2D(0.372, 0.497));
+//        kdTree.insert(new Point2D(0.564, 0.413));
+//        kdTree.insert(new Point2D(0.226, 0.577));
+//        kdTree.insert(new Point2D(0.144, 0.179));
+//        kdTree.insert(new Point2D(0.083, 0.51));
+//        kdTree.insert(new Point2D(0.32, 0.708));
+//        kdTree.insert(new Point2D(0.417, 0.362));
+//        kdTree.insert(new Point2D(0.862, 0.825));
+//        kdTree.insert(new Point2D(0.785, 0.725));
+//        kdTree.insert(new Point2D(0.499, 0.208));
+//        System.out.println(kdTree.contains(new Point2D(0.32, 0.99)));
 
         KdTree kdTree = new KdTree();
-        kdTree.insert(new Point2D(0.372, 0.497));
-        kdTree.insert(new Point2D(0.564, 0.413));
-        kdTree.insert(new Point2D(0.226, 0.577));
-        kdTree.insert(new Point2D(0.144, 0.179));
-        kdTree.insert(new Point2D(0.083, 0.51));
-        kdTree.insert(new Point2D(0.32, 0.708));
-        kdTree.insert(new Point2D(0.417, 0.362));
-        kdTree.insert(new Point2D(0.862, 0.825));
-        kdTree.insert(new Point2D(0.785, 0.725));
-        kdTree.insert(new Point2D(0.499, 0.208));
-        System.out.println(kdTree.contains(new Point2D(0.32, 0.99)));
+        kdTree.insert(new Point2D(0.125, 0.25));
+        kdTree.insert(new Point2D(0.25, 0.25));
+        kdTree.insert(new Point2D(0.75, 0.125));
+        kdTree.insert(new Point2D(0.75, 1.0));
+        kdTree.insert(new Point2D(1.0, 0.25));
+        kdTree.insert(new Point2D(0.375, 0.5));
+        kdTree.insert(new Point2D(0.0, 0.125));
+        kdTree.insert(new Point2D(0.875, 0.125));
+        kdTree.insert(new Point2D(0.25, 0.375));
+        kdTree.insert(new Point2D(0.75, 0.25));
+        kdTree.insert(new Point2D(0.375, 0.25));
+        kdTree.insert(new Point2D(0.0, 0.5));
+        kdTree.insert(new Point2D(0.5, 0.125));
+        kdTree.insert(new Point2D(0.875, 0.625));
+        kdTree.insert(new Point2D(0.75, 0.0));
+        kdTree.insert(new Point2D(0.625, 0.0));
+        kdTree.insert(new Point2D(1.0, 1.0));
+        kdTree.insert(new Point2D(0.0, 0.375));
+        kdTree.insert(new Point2D(0.75, 0.5));
+        kdTree.insert(new Point2D(1.0, 0.875));
+        System.out.println(kdTree.contains(new Point2D(0.125, 0.25)) &&
 
+        kdTree.contains(new Point2D(0.25, 0.25)) &&
+        kdTree.contains(new Point2D(0.75, 0.125)) &&
+        kdTree.contains(new Point2D(0.75, 1.0)) &&
+        kdTree.contains(new Point2D(1.0, 0.25)) &&
+        kdTree.contains(new Point2D(0.375, 0.5)) &&
+        kdTree.contains(new Point2D(0.0, 0.125)) &&
+        kdTree.contains(new Point2D(0.875, 0.125)) &&
+        kdTree.contains(new Point2D(0.25, 0.375)) &&
+        kdTree.contains(new Point2D(0.75, 0.25)) &&
+        kdTree.contains(new Point2D(0.375, 0.25)) &&
+        kdTree.contains(new Point2D(0.0, 0.5)) &&
+        kdTree.contains(new Point2D(0.5, 0.125)) &&
+        kdTree.contains(new Point2D(0.875, 0.625)) &&
+        kdTree.contains(new Point2D(0.75, 0.0)) &&
+        kdTree.contains(new Point2D(0.625, 0.0)) &&
+        kdTree.contains(new Point2D(1.0, 1.0)) &&
+        kdTree.contains(new Point2D(0.0, 0.375)) &&
+        kdTree.contains(new Point2D(0.75, 0.15)) &&
+        kdTree.contains(new Point2D(1.0, 0.875)));
     }
 }
