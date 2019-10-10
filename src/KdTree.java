@@ -351,7 +351,7 @@ public class KdTree {
        kdTree.insert(new Point2D(0.7, 0.2));
        kdTree.insert(new Point2D(0.5, 0.4));
        kdTree.insert(new Point2D(0.2, 0.3));
-       kdTree.insert(new Point2D(0.4,0.7));
+       kdTree.insert(new Point2D(0.4, 0.7));
        kdTree.insert(new Point2D(0.9, 0.6));
         Iterable<Point2D> result = kdTree.range(queryRect);
         for (Point2D p : result) {
@@ -365,7 +365,7 @@ public class KdTree {
         set.insert(new Point2D(0.7, 0.2));
         set.insert(new Point2D(0.5, 0.4));
         set.insert(new Point2D(0.2, 0.3));
-        set.insert(new Point2D(0.4,0.7));
+        set.insert(new Point2D(0.4, 0.7));
         set.insert(new Point2D(0.9, 0.6));
 
         Iterable<Point2D> setResult = set.range(queryRect);
